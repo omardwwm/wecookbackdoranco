@@ -1,0 +1,48 @@
+GET http://localhost:8080/users/
+headers: {"x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzliMWY1ZDMwMDNlMzlmNDBhYzU4NiIsImlhdCI6MTYxODY2OTcxM30.0mpg0vjFP-s-HWeTUzhplr4poyvl1Wj9SO4mxdjXYvQ"};
+
+###
+GET http://localhost:8080/users/60798525a6934161d0713bf6
+headers: {"x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzliMWY1ZDMwMDNlMzlmNDBhYzU4NiIsImlhdCI6MTYxODY2OTcxM30.0mpg0vjFP-s-HWeTUzhplr4poyvl1Wj9SO4mxdjXYvQ"};
+
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+    "username": "omar2",
+    "email": "omar2@email.me",
+    "password":"merntest",
+    "passwordCheck": "merntest",
+    "role": "ROLE_ADMIN",
+    "subscribedToChannel":"channel10 test"
+}
+
+###
+DELETE http://localhost:8080/users/6070a8321f7ac36f4ccafc30
+
+###
+PATCH  http://localhost:8080/users/
+Content-Type: application/json
+headers: {"x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzk4NTI1YTY5MzQxNjFkMDcxM2JmNiIsImlhdCI6MTYxODU4MDA0MX0.mOggsJ-aYg61JxaqShRlkVU16HpGRKT6EJ2tRyYssCc"};
+
+
+{
+    "username" : "updatedOmarUser",
+    "email": "omarUpdatedUser@email.me",
+    "subscribedToChannel":"channel10 testUpdated"
+
+}
+###
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+    "email": "omar@email.me",
+    "password": "merntest"
+}
+###
+GET http://localhost:8080/recipes
+
+###
+GET http://localhost:8080/recipes/12
