@@ -9,7 +9,7 @@ const ingredientSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    // added 01/11/2021 test  06/11/2021 10pm
+    // added 01/11/2021 test  06/11/2021 10pm update in test-branch
     ingredientUnity: {
         type: String,
         trim: true
