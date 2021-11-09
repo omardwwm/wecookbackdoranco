@@ -21,9 +21,10 @@ const sendEmail = (emailTemplate) => {
         if (err) {
         res.status(500).json("Error sending email")
         console.log(err)
-        }else{
-        console.log(`Email sent 🌻`, info && info.response)
-        }           
+        }
+        // else{
+        // console.log(`Email sent 🌻`, info && info.response)
+        // }           
     })
     }
 
@@ -64,17 +65,11 @@ router.post('/send-url/:email', async(req, res)=>{
                 `
                 // return { from, to, subject, html }
         }
-        const test = jwt.decode(token);
-        // console.log('decodedTokenIs', test)
+
         
-            sendEmail(emailTemplate);
-            return res.status(201).json({message:`Un email vous a ete envoye \a' ${email}, suivez les instruction pourreset votre mot de passe`})
-        // }
-        // if(user){
-        // }
-        // else{
-        //    return res.status(400).json({message:`Aucun utilisateur avec cet email: ${email} es trouve`})
-        // }  
+        sendEmail(emailTemplate);
+        return res.status(201).json({message:`Un email vous a ete envoye \a' ${email}, suivez les instruction pourreset votre mot de passe`})
+       
     } catch (error) {
         res.status(500).json({ message: error.message});
     }
@@ -85,19 +80,20 @@ router.put('/change-password/:userId/:token', async(req, res)=>{
         const { userId, token } = req.params;
         let {newPassword, newPasswordConfirm} =req.body;
         // console.log(req.params);
-        console.log(req.body);
+        // console.log(req.body);
         const user = await User.findOne({_id: userId })
         const secret = user.password 
         const payload = jwt.decode(token, secret);
         const userIdFromDB = user._id;
         const userIdFromParams = payload._id;
-        console.log(userIdFromDB);
-        console.log(userIdFromParams);
-        console.log(newPassword);
-        console.log(newPasswordConfirm);
+        // console.log("payoad is : ", payload);
+        // console.log(userIdFromDB);
+        // console.log(userIdFromParams);
+        // console.log(newPassword);
+        // console.log(newPasswordConfirm);
         if(userIdFromDB == userIdFromParams){
             if(newPassword !== newPasswordConfirm){
-                return res.status(400).json({message: 'Mots de passes doivent etres identiques'})
+                return res.status(400).json({message: 'Mots de passes doivent etres identiques'}) 
             }
             const hashedPassword = bcrypt.hashSync(newPassword, 10)
             const updatedUserWithNewPassword = await User.findByIdAndUpdate({_id:userId},{
