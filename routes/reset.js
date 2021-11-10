@@ -40,7 +40,7 @@ router.post('/send-url/:email', async(req, res)=>{
 
         // res.json(user)
         // const token = crypto.randomBytes(16).toString("hex");
-        const token = jwt.sign({email: email, _id:user._id}, process.env.JWT_SECRET, {algorithm: "HS256",expiresIn:'2h'});
+        const token = jwt.sign({email: email, _id:user._id}, process.env.JWT_SECRET, {algorithm: "HS256",expiresIn:3*60});
         // console.log(token);
 
         const urlResetExires = moment().add(2, "hours");
@@ -86,11 +86,18 @@ router.put('/change-password/:userId/:token', async(req, res)=>{
         const payload = jwt.decode(token, secret);
         const userIdFromDB = user._id;
         const userIdFromParams = payload._id;
-        // console.log("payoad is : ", payload);
         // console.log(userIdFromDB);
         // console.log(userIdFromParams);
         // console.log(newPassword);
         // console.log(newPasswordConfirm);
+
+        if(token){
+            if(payload.exp * 1000 < new Date().getTime()){
+                console.log("payoad is : ", payload.exp);
+                return res.status(404).json({message: 'OPERATION NON POSSIBLE, LE LIEN N\'EST PLUS VALIDE, LE TOKEN A EXPIRE !!'})
+            }
+        }
+        
         if(userIdFromDB == userIdFromParams){
             if(newPassword !== newPasswordConfirm){
                 return res.status(400).json({message: 'Mots de passes doivent etres identiques'}) 
