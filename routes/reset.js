@@ -40,7 +40,7 @@ router.post('/send-url/:email', async(req, res)=>{
 
         // res.json(user)
         // const token = crypto.randomBytes(16).toString("hex");
-        const token = jwt.sign({email: email, _id:user._id}, process.env.JWT_SECRET, {algorithm: "HS256",expiresIn:3*60});
+        const token = jwt.sign({email: email, _id:user._id}, process.env.JWT_SECRET, {algorithm: "HS256",expiresIn:'2h'});
         // console.log(token);
 
         const urlResetExires = moment().add(2, "hours");
