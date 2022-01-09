@@ -3,6 +3,7 @@ require('dotenv').config();
 const router = express.Router();
 const Recipe = require('../models/recipeModel');
 const User = require('../models/users.model');
+const RecipeNutriFacts = require('../models/nutriFactsModel')
 const auth = require('../middleware/auth');
 const fs = require('fs');
 const multer = require('multer');
@@ -33,6 +34,7 @@ router.get('/lastRecipes', async(req, res)=>{
 // Get one recipe
 router.get('/:id',async (req, res)=>{
     // console.log(req);
+    // TODO//ADD POPULATE RECIPENUTRIFACTS TO REQUEST (FOR RECIPEDETAILS IN FRONT TO DISPLAY NUTRIFACTS OF EACH RECIPE)
     try {
         const thisRecipe = await Recipe.findById(req.params.id).populate({
             path:'comments',
@@ -80,6 +82,7 @@ router.get('/:id',async (req, res)=>{
 // const upload = multer({storage: storage})
 const upload = multer({storage: multerS3Config})
  
+// ADD MORE CONTROLE (CHECK AND VALID ALL FIELDS ONE BY ONE!!!!!) //TODO
 router.post('/add-recipe/', auth, upload.single('recipePicture'),async(req, res)=>{
     try {
         // const url = req.protocol + '://' + req.get('host');
@@ -106,6 +109,14 @@ router.post('/add-recipe/', auth, upload.single('recipePicture'),async(req, res)
             recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipeIngrediants, recipePreparationTime, recipeCookingTime, recipeCategory,
             recipePicture
         });
+
+        // To add recipeNutriFcts (Updated 09/01/2022 at 19h42) 
+        // Ae;iorer, ajouter les vraies valeur recuperer ds la requettes via req.body avec les rest de la recette!!!!
+        const nutriFacts = new RecipeNutriFacts({
+            recipeClories:2000, recipeCarbohydes:150, recipeProteines:45, recipeFat:30, recipeId:newRecipe._id
+        });
+        await nutriFacts.save();
+        await newRecipe.recipeNutriFacts.unshift(nutriFacts);
         const savedNewRecipe = await newRecipe.save();
         await UserCreator.recipes.unshift(savedNewRecipe);
         await UserCreator.save();

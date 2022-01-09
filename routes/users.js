@@ -291,6 +291,7 @@ router.get('/metadata/:userId', async(req, res)=>{
         const userId = req.params.userId;
         const userData = await User.findById(userId).populate('userMetaData').populate('recipes');
         // const metaData = user.userMetaData;
+        // TODO // Trier les infos a envoyer, seulement celle necessaire pour l'affichage
         res.status(201).json(userData);
     } catch (error) {
         res.status(500).json({message: error.message})

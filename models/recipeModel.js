@@ -68,6 +68,12 @@ const recipeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }]
+    // Added for nutrifacts 06/01/2022, at: 20:22
+    ,
+    recipeNutriFacts:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'RecipeNutriFacts'
+    }]
 })
 
 module.exports = Recipe = mongoose.model('Recipe', recipeSchema);
