@@ -88,10 +88,15 @@ router.post('/add-recipe/', auth, upload.single('recipePicture'),async(req, res)
         // const url = req.protocol + '://' + req.get('host');
         let {recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipePreparationTime, recipeCookingTime, recipeCategory} = req.body;
         const ingrediants = req.body.recipeIngrediants;
+        // To add recipeNutriFcts (Updated 09/01/2022 at 19h42) 
+        const recipeNutriFacts = req.body.recipeNutriFacts;
         // console.log(JSON.parse(recipeCreator));
         const UserCreator = await User.findById(recipeCreator);
         // console.log(UserCreator);
         const recipeIngrediants = JSON.parse(ingrediants);
+        // To add recipeNutriFcts (Updated 09/01/2022 at 19h42) 
+        const nutriFactsFromReq = JSON.parse(recipeNutriFacts);
+        // console.log(nutriFactsFromReq);
         let recipePicture;
         if(req.file){
             // recipePicture =  "/public/uploads/" +  req.file.filename;
@@ -113,7 +118,7 @@ router.post('/add-recipe/', auth, upload.single('recipePicture'),async(req, res)
         // To add recipeNutriFcts (Updated 09/01/2022 at 19h42) 
         // Ae;iorer, ajouter les vraies valeur recuperer ds la requettes via req.body avec les rest de la recette!!!!
         const nutriFacts = new RecipeNutriFacts({
-            recipeClories:2000, recipeCarbohydes:150, recipeProteines:45, recipeFat:30, recipeId:newRecipe._id
+            recipeClories:nutriFactsFromReq.recipeCaloriesIn100Grams, recipeCarbohydes:nutriFactsFromReq.recipeCarbohydIn100Grams, recipeProteines:nutriFactsFromReq.recipeProteinIn100Grams, recipeFat:nutriFactsFromReq.recipeFatIn100Grams, recipeId:newRecipe._id
         });
         await nutriFacts.save();
         await newRecipe.recipeNutriFacts.unshift(nutriFacts);
