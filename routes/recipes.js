@@ -41,7 +41,7 @@ router.get('/:id',async (req, res)=>{
             populate:({
                 path: 'userId', select:['username', 'profilePicture']
             })
-        });
+        }).populate('recipeNutriFacts');
         // console.log(thisRecipe); 
         res.json(thisRecipe);
     } catch (error) {
