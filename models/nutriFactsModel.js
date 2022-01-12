@@ -18,6 +18,10 @@ const nutriFactsSchema = new mongoose.Schema({
         type:Number
     },
 
+    recipeFiber:{
+        type:Number
+    },
+
     recipeId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Recipe'

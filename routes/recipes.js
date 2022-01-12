@@ -86,7 +86,7 @@ const upload = multer({storage: multerS3Config})
 router.post('/add-recipe/', auth, upload.single('recipePicture'),async(req, res)=>{
     try {
         // const url = req.protocol + '://' + req.get('host');
-        let {recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipePreparationTime, recipeCookingTime, recipeCategory} = req.body;
+        let {recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipePreparationTime, recipeCookingTime, recipeCategory, nutriFactsStatus} = req.body;
         const ingrediants = req.body.recipeIngrediants;
         // To add recipeNutriFcts (Updated 09/01/2022 at 19h42) 
         const recipeNutriFacts = req.body.recipeNutriFacts;
@@ -112,13 +112,13 @@ router.post('/add-recipe/', auth, upload.single('recipePicture'),async(req, res)
         }
         const newRecipe = new Recipe ({
             recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipeIngrediants, recipePreparationTime, recipeCookingTime, recipeCategory,
-            recipePicture
+            recipePicture, nutriFactsStatus
         });
 
         // To add recipeNutriFcts (Updated 09/01/2022 at 19h42) 
         // Ae;iorer, ajouter les vraies valeur recuperer ds la requettes via req.body avec les rest de la recette!!!!
         const nutriFacts = new RecipeNutriFacts({
-            recipeClories:nutriFactsFromReq.recipeCaloriesIn100Grams, recipeCarbohydes:nutriFactsFromReq.recipeCarbohydIn100Grams, recipeProteines:nutriFactsFromReq.recipeProteinIn100Grams, recipeFat:nutriFactsFromReq.recipeFatIn100Grams, recipeId:newRecipe._id
+            recipeClories:nutriFactsFromReq.recipeCaloriesIn100Grams, recipeCarbohydes:nutriFactsFromReq.recipeCarbohydIn100Grams, recipeProteines:nutriFactsFromReq.recipeProteinIn100Grams, recipeFat:nutriFactsFromReq.recipeFatIn100Grams, recipeFiber:nutriFactsFromReq.recipeFiberIn100Grams, recipeId:newRecipe._id
         });
         await nutriFacts.save();
         await newRecipe.recipeNutriFacts.unshift(nutriFacts);

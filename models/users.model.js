@@ -18,11 +18,17 @@ const userSchema = new mongoose.Schema({
     profilePicture:{
         type: String
     },
+    // roles: {
+    //     type: [{
+    //         type: String,
+    //         enum: ['ROLE_USER', 'ROLE_ADMIN']
+    //     }],
+    //     default: ['ROLE_USER']
+    // },
+
     roles: {
-        type: [{
-            type: String,
-            enum: ['ROLE_USER', 'ROLE_ADMIN']
-        }],
+        type:[String],
+        enum: ['ROLE_USER', 'ROLE_ADMIN'],
         default: ['ROLE_USER']
     },
 

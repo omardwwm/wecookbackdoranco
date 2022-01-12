@@ -73,7 +73,13 @@ const recipeSchema = new mongoose.Schema({
     recipeNutriFacts:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RecipeNutriFacts'
-    }]
+    }],
+    // Added 12/01/2022, to manage status of nutrifacts, if is gieven by recipe creator, if calcuated with api or if it not communicated (NC).
+    nutriFactsStatus: {
+        type: String,
+        enum: ['NC', 'GIVED', 'CALCULATED'],
+        default: 'NC'
+    }
 })
 
 module.exports = Recipe = mongoose.model('Recipe', recipeSchema);
