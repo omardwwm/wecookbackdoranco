@@ -140,6 +140,10 @@ router.put("/update/:id", auth, upload.single('recipePicture'), async (req, res)
         let {recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipePreparationTime, recipeCookingTime, recipeCategory} = req.body;
         const ingrediants = req.body.recipeIngrediants;
         const recipeIngrediants = JSON.parse(ingrediants);
+        // To add recipeNutriFcts (Updated 13/01/2022 at 20h07) 
+        const recipeNutriFacts = req.body.recipeNutriFacts;
+        const nutriFactsFromReq = JSON.parse(recipeNutriFacts);
+        console.log(recipeNutriFacts);
         let recipePicture;
         if(req.file){
             // let newPicture =  "/public/uploads/" +  req.file.filename;
@@ -151,10 +155,14 @@ router.put("/update/:id", auth, upload.single('recipePicture'), async (req, res)
             // console.log('old pict', recipePicture);
             // console.log(path.basename(oldPicture));
         }
-    const updatedRecipe = await Recipe.findByIdAndUpdate({_id: req.params.id}, 
+    const updatedRecipe = await Recipe.findOneAndUpdate({_id: req.params.id}, 
         { recipeName, recipeDescription, recipeCreator, recipeCreatorName, recipeIngrediants, recipePreparationTime, recipeCookingTime, recipeCategory,
-            recipePicture}, {new: true}
+            recipePicture},{ new:true, upsert: false}
+            // {"$set": { "recipeNutriFacts.$.recipeClories": "900" }}
+            // , { new:true, upsert: false},
     );
+
+    const updatedNutriFacts = await RecipeNutriFacts.findOneAndUpdate({recipeId:req.params.id},{$set :{recipeClories:nutriFactsFromReq.recipeCaloriesIn100Grams, recipeCarbohydes:nutriFactsFromReq.recipeCarbohydIn100Grams, recipeProteines:nutriFactsFromReq.recipeProteinIn100Grams, recipeFat:nutriFactsFromReq.recipeFatIn100Grams, recipeFiber:nutriFactsFromReq.recipeFiberIn100Grams}}, {new:true});
     // console.log(path.basename(req.body.recipePicture))
     if(req.file){
         let oldImageName =  path.basename(req.body.oldRecipePicture)
@@ -176,7 +184,9 @@ router.put("/update/:id", auth, upload.single('recipePicture'), async (req, res)
         //     }
         // })
     }
-    res.json({message:'Recipe was updated', updatedRecipe});
+    // res.json({message:'Recipe was updated', updatedRecipe});
+    res.json({message:'Recipe was updated', updatedRecipe, updatedNutriFacts});
+    console.log(updatedRecipe);
     } catch (error) {
         res.status(500).json({message: error.message})
     }
