@@ -17,6 +17,23 @@ const s3Config = new AWS.S3({
 
 exports.s3Config = s3Config;
 
+const checkFileType = (file, cb)=>{
+    // extension autorisee
+    const fileTypes = /jpeg|jpg|png|jfif|gif|webp/;
+    // verfifier l'exte
+    const extname = fileTypes.test(path.parse(file.originalname).ext);
+    // verfier le mime
+    const mimetype = fileTypes.test(file.mimeType);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+      } else {
+        cb("Error: type du fichier invalide !");
+      }
+}
+
+exports.checkFileType = checkFileType;
+
 const multerS3Config = multerS3({
     s3: s3Config,
     acl: 'public-read',
