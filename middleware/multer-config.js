@@ -35,9 +35,9 @@ const { s3Config, multerS3Config, checkFileType } = require("../s3")
 // Init upload
 const upload = multer({
   storage: multerS3Config,
-  fileFilter: function (req, file, cb){
-    checkFileType(file, cb);
-  },
+  // fileFilter: function (req, file, cb){
+  //   checkFileType(file, cb);
+  // },
 }).single("profilePicture");
 // const upload = multer({
 //   storage: storage,
