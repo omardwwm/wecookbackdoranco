@@ -17,7 +17,7 @@ const s3Config = new AWS.S3({
 
 exports.s3Config = s3Config;
 
-const checkFileType = (file, cb)=>{
+const checkFileType = function(req, file, cb){
     // extension autorisee
     const fileTypes = /jpeg|jpg|png|jfif|gif|webp/;
     // verfifier l'exte

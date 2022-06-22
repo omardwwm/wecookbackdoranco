@@ -32,20 +32,24 @@ const { s3Config, multerS3Config, checkFileType } = require("../s3")
 
 // }
 
-// Init upload
+// Init upload 
 const upload = multer({
   storage: multerS3Config,
-  fileFilter : checkFileType
-  // fileFilter: function (req, file, cb){
-  //   checkFileType(file, cb);
-  // },
-}).single("profilePicture");
-// const upload = multer({
-//   storage: storage,
-//   limits:1024,
-//   fileFilter:function (rer, file, cb){
-//       checkFileType(file, cb)
-//   }
-// }).single("photo-server");
+  fileFilter: function (req, file, cb) {
+    // extension autorisee
+    const fileTypes = /jpeg|jpg|png|jfif|gif|webp/;
+    // verfifier l'exte
+    const extname = fileTypes.test(path.parse(file.originalname).ext);
+    // verfier le mime
+    const mimetype = fileTypes.test(file.mimeType);
 
-module.exports = upload;
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb("Error: type du fichier invalide !");
+    }
+  }
+})
+  .single("profilePicture");
+
+module.exports = upload; 
