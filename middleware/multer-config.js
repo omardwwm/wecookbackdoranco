@@ -35,6 +35,7 @@ const { s3Config, multerS3Config, checkFileType } = require("../s3")
 // Init upload
 const upload = multer({
   storage: multerS3Config,
+  fileFilter : checkFileType
   // fileFilter: function (req, file, cb){
   //   checkFileType(file, cb);
   // },
