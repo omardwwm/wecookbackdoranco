@@ -1,12 +1,12 @@
-const bcrypt = require('bcrypt');
 const User = require('../models/users.model');
 const UserMetaData = require('../models/userMetaDataModel');
-const jwt = require("jsonwebtoken");
-const auth = require('../middleware/auth');
-const multer = require('multer');
-const { s3Config, multerS3Config, checkFileType } = require('../s3');
 const fs = require('fs')
 let path = require('path');
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+// const auth = require('../middleware/auth');
+// const multer = require('multer');
+const { s3Config, multerS3Config, checkFileType } = require('../s3');
 
 // Get all users
 exports.getAllProfessionnal = async (req, res) => {
