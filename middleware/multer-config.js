@@ -1,6 +1,6 @@
 const multer = require("multer");
 const path = require("path");
-const { s3Config, multerS3Config, checkFileType } = require("../s3")
+const { multerS3Config } = require("../s3")
 
 // Set the Storage Engine
 // const storage = multer.diskStorage({
@@ -16,21 +16,6 @@ const { s3Config, multerS3Config, checkFileType } = require("../s3")
 //   },
 // });
 
-// function checkFileType(file, cb) {
-//   // extension autirse
-//   const fileTypes = /jpeg|jpg|png/;
-//   // verfifier l'exte
-//   const extname = fileTypes.test(path.parse(file.originalname).ext);
-//   // verfier le mime
-//   const mimetype = fileTypes.test(file.mimeType);
-
-//   if (mimetype && extname) {
-//     return cb(null, true);
-//   } else {
-//     cb("Error: type du fichier invalide !");
-//   }
-
-// }
 function checkFileTypes(file, cb) {
   // Allowed ext
   const filetypes = /jpeg|jpg|png|gif/;
