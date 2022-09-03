@@ -2,7 +2,6 @@ const User = require('../models/users.model');
 const Recipe = require('../models/recipeModel');
 const RecipeNutriFacts = require('../models/nutriFactsModel');
 const { s3Config, multerS3Config, checkFileType } = require('../s3');
-let path = require('path');
 
 exports.getAllRecipes = async (req, res) => {
     try {
