@@ -158,11 +158,11 @@ exports.deleteRecipe = async (req, res) => {
     try {
         const deletedRecipe = await Recipe.deleteOne({ _id: req.params.id });
         let imageName = path.basename(JSON.parse(req.query.dataToDelete));
-        let imageToDeleteFromAWS = path.basename(req.query.dataToDelete);
+        // let imageToDeleteFromAWS = path.basename(req.query.dataToDelete);
         // console.log('imageName', imageName);
         s3Config.deleteObject({
             Bucket: process.env.AWS_BUCKET_NAME,
-            Key: imageToDeleteFromAWS
+            Key: imageName
         }, (err, data) => {
             console.error(err);
             console.log('data delete is', data);
