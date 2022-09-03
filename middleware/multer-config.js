@@ -39,6 +39,6 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     checkFileTypes(file, cb);
   },
-}).single("profilePicture");
+});
 
 module.exports = upload; 

@@ -112,7 +112,7 @@ exports.loginUser = async (req, res) => {
                 id: myUser._id,
                 username: myUser.username,
                 email: myUser.email,
-                profilePicture: myUser.profilePicture,
+                profilePicture: myUser.profilePicture, 
                 recipes: myUser.recipes,
             },
             message: "VOUS ETES CONNECTED 🌻🌻🌻"
