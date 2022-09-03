@@ -18,7 +18,7 @@ const { multerS3Config } = require("../s3")
 
 function checkFileTypes(file, cb) {
   // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif/;
+  const filetypes = /jpeg|jpg|png|jfif|gif|webp/;
   // Check ext
   const extname = filetypes.test(
     path.extname(file.originalname).toString()
